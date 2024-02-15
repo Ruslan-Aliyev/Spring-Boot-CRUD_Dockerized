@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  spring-boot-docker:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pgsql-db-spring
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pgsql-db-spring:5432/student
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456
+
+  pgsql-db-spring:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: student
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: spring-pgadmin
+    depends_on:
+      - pgsql-db-spring
+    environment:
+      PGADMIN_DEFAULT_EMAIL: spring@admin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "5000:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  postgres-data:
+  pgadmin-data:
