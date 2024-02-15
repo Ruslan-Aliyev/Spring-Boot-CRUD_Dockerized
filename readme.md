@@ -8,7 +8,7 @@ docker build --tag=spring-boot-docker .
 docker run -p 8080:8080 spring-boot-docker
 ```
 
-3/ Finish the docker-compose.yml, then test:
+3/ Finish the `docker-compose.yml`, then test:
 ```
 docker-compose build # For rebuild, append --no-cache
 docker-compose up
